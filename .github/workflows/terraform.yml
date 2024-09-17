@@ -1,0 +1,46 @@
+name: Terraform Pipeline with Infracost Atlantis
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.5
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Validate
+        run: terraform validate
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+      - name: Generate Cost Estimates
+        run: infracost diff --path tfplan --show-details
+      - name: Upload Cost Estimates (Optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: cost-estimates
+          path: infracost-results.json
+
+  review:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download Cost Estimates (Optional)
+        uses: actions/download-artifact@v3
+        with:
+          name: cost-estimates
+      - name: Review Cost Estimates
+        run: |
+          # Review cost estimates here, e.g., using a script or UI
+          # You can also add a manual approval step here
+          echo "Cost estimates are available for review."
