@@ -59,7 +59,7 @@ jobs:
       - name: Generate Cost Estimates
         env:
           INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
-        run: infracost diff --path plan.json
+        run: infracost diff --path plan.json --out-file infracost-results.json
 
       - name: Upload Cost Estimates (Optional)
         uses: actions/upload-artifact@v3
