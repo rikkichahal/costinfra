@@ -15,11 +15,11 @@ jobs:
         with:
           terraform_version: 1.3.5
       - name: Terraform Init
-        run: terraform init
+        run: terraform init var="aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" -var="aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
       - name: Terraform Validate
-        run: terraform validate
+        run: terraform validate var="aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" -var="aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -out=tfplan var="aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" -var="aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
       - name: Generate Cost Estimates
         run: infracost diff --path tfplan --show-details
       - name: Upload Cost Estimates (Optional)
