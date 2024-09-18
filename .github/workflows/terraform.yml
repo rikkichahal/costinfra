@@ -25,9 +25,7 @@ jobs:
 
       - name: Install Infracost
         run: |
-          curl -s https://api.github.com/repos/infracost/infracost/releases/latest | \
-          grep "browser_download_url.*linux_amd64.tar.gz" | \
-          cut -d : -f 2,3 | tr -d \" | wget -qi -
+          curl -sL https://github.com/infracost/infracost/releases/latest/download/infracost-linux-amd64.tar.gz -o infracost-linux-amd64.tar.gz
           tar -xzf infracost-linux-amd64.tar.gz
           sudo mv infracost-linux-amd64 /usr/local/bin/infracost
 
