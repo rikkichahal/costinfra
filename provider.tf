@@ -4,7 +4,7 @@ terraform {
 
   backend "s3" {
     bucket = "airflow-tssst"
-    key    = "testing.tfstate"
+    key    = "costinfra.tfstate"
     region = "us-east-1"
 
   }
